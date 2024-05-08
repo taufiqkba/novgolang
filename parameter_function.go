@@ -22,7 +22,10 @@ func main() {
 
 }
 
-func filter(data []string, callback func(string) bool) []string {
+// using aliases closure scheme
+type FilterCallback func(string) bool
+
+func filter(data []string, callback FilterCallback) []string {
 
 	var result []string
 
