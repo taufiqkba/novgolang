@@ -11,6 +11,7 @@ type student struct {
 
 type person struct {
 	name string
+	age  int
 }
 
 func main() {
@@ -49,4 +50,14 @@ func main() {
 	fmt.Println("student 1, name: ", s6.name)
 	fmt.Println("student 6, name: ", s7.name)
 
+	// combine slice & struct
+	var allStudents = []person{
+		{name: "John", age: 22},
+		{name: "Wick", age: 23},
+		{name: "Kurniawan", age: 24},
+	}
+
+	for _, student := range allStudents {
+		fmt.Println(student.name, "age is ", student.age)
+	}
 }
