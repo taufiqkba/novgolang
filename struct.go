@@ -5,11 +5,42 @@ import (
 )
 
 type student struct {
-	name  string
-	grade int
+	name  string `tag1` //using tag can used for encode/decode data especially on JSON
+	grade int    `tag2`
 }
 
 type person struct {
+	name string
+	age  int
+}
+
+// implement nested struct
+type studentNested struct {
+	person struct {
+		name string
+		age  int
+	}
+	grade   int
+	hobbies []string
+}
+
+// declare and initiate struct with horizontal model
+// type persons struct {name string; age int; hobbies []string}
+
+// type struct alias
+type Car struct {
+	color string
+	power int
+}
+
+type BrandCar = Car
+
+type People1 struct {
+	name string
+	age  int
+}
+
+type People2 = struct {
 	name string
 	age  int
 }
@@ -60,4 +91,27 @@ func main() {
 	for _, student := range allStudents {
 		fmt.Println(student.name, "age is ", student.age)
 	}
+
+	// declare and initiate struct with horizontal model
+	// var p1 = struct{name string; age int}{age: 22, name: "wick"}
+	// var p2 = struct{name string; age int}{age: 23, name: "john"}
+
+	// type aliases
+	fmt.Println("==Struct Aliases==")
+	var car1 = Car{"Toyota", 2000}
+	fmt.Println(car1)
+
+	var car2 = BrandCar{"Honda", 3000}
+	fmt.Println(car2)
+
+	car := Car{"Suzuki", 2500}
+	fmt.Println(BrandCar(car))
+
+	brandCar := BrandCar{"Mazda", 3500}
+	fmt.Println(Car(brandCar))
+
+	// another cases
+	type Number = int
+	var num Number = 15
+	fmt.Println(num)
 }
