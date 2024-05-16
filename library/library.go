@@ -2,11 +2,14 @@ package library
 
 import "fmt"
 
-func SayHello(name string) {
-	fmt.Println("Hello")
-	introduce(name)
-}
+var Student = struct {
+	Name  string
+	Grade int
+}{}
 
-func introduce(name string) {
-	fmt.Println("My name:", name)
+func init() {
+	Student.Name = "John Wick"
+	Student.Grade = 2
+
+	fmt.Println("--> library/library.go imported")
 }

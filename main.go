@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	lib "novgolang/library"
+)
 
 func main() {
 	var firstName string = "John"
@@ -26,4 +29,17 @@ func main() {
 	name := new(string)
 	fmt.Println(name)
 	fmt.Println(*name)
+
+	// running file on library
+	// library.SayHello("ethan hunt")
+	// library.introduce("ethan") // can't access because unexported function
+
+	// var studentS1 = lib.Student{Name: "ethan", Grade: 2}
+	// fmt.Println("name:", studentS1.Name)
+	// fmt.Println("grade: ", studentS1.Grade)
+
+	// imported file
+	fmt.Printf("Name: %s\n", lib.Student.Name)
+	fmt.Printf("Grade: %d\n", lib.Student.Grade)
+
 }
