@@ -40,6 +40,37 @@ func (s square) circumference() float64 {
 	return s.side * 4
 }
 
+// Embedded Interface
+type calculate2D interface {
+	area() float64
+	circumference() float64
+}
+
+type calculate3D interface {
+	volume() float64
+}
+
+type calculate2D3D interface {
+	calculate2D
+	calculate3D
+}
+
+type cube struct {
+	side float64
+}
+
+func (c *cube) volume() float64 {
+	return math.Pow(c.side, 3)
+}
+
+func (c *cube) area() float64 {
+	return math.Pow(c.side, 2) * 6
+}
+
+func (c *cube) circumference() float64 {
+	return c.side * 12
+}
+
 func main() {
 	var two_dimentional calculate
 
@@ -59,4 +90,11 @@ func main() {
 
 	fmt.Println(circle_shape.radius())
 
+	// embedded interface
+	var three_dimentional calculate2D3D = &cube{4}
+
+	fmt.Println("====CUBE====")
+	fmt.Println("Area:", three_dimentional.area())
+	fmt.Println("Circumference:", three_dimentional.circumference())
+	fmt.Println("Volume:", three_dimentional.volume())
 }
