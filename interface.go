@@ -98,5 +98,43 @@ func main() {
 	fmt.Println("Circumference:", three_dimentional.circumference())
 	fmt.Println("Volume:", three_dimentional.volume())
 
-	//
+	// Any or Empty Interface{}
+	fmt.Println("==ANY or Empty Interface==")
+	var secret interface{}
+
+	secret = "ethan hunt"
+	fmt.Println(secret)
+
+	secret = []string{"apple", "pineapple", "banana"}
+	fmt.Println(secret)
+
+	secret = 12.5
+	fmt.Println(secret)
+
+	// another example case
+
+	var data map[string]interface{}
+
+	data = map[string]interface{}{
+		"name":      "ethan hunt",
+		"grade":     2,
+		"breakfast": []string{"apple", "pineapple", "banana"},
+	}
+	fmt.Println("using interface{} empty")
+	fmt.Println(data)
+
+	// any type data
+
+	var dataAny map[string]any
+
+	dataAny = map[string]any{
+		"name":      "ethan hunt",
+		"grade":     2,
+		"breakfast": []string{"apple", "pineapple", "banana"},
+	}
+	fmt.Println("using any")
+	fmt.Println(dataAny)
+
+	// casting variable any and empty interface
+
 }
