@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"strings"
 )
 
 type calculate interface {
@@ -71,6 +72,12 @@ func (c *cube) circumference() float64 {
 	return c.side * 12
 }
 
+// Casting an empty interface variable to a pointer object
+type personS struct {
+	name string
+	age  int
+}
+
 func main() {
 	var two_dimentional calculate
 
@@ -136,5 +143,51 @@ func main() {
 	fmt.Println(dataAny)
 
 	// casting variable any and empty interface
+	secret = 2
+	var number = secret.(int) * 10
+	fmt.Println(secret, "multiple by 10 is:", number)
 
+	secret = []string{"apple", "mango", "orange"}
+	var fruits = strings.Join(secret.([]string), ", ")
+	fmt.Println(fruits, "is my favorite fruits")
+
+	// Casting an empty interface variable to a pointer object
+	var secretPerson interface{} = &personS{name: "wick", age: 27}
+	var name = secretPerson.(*personS).name
+	fmt.Println(name)
+
+	// Combined between Slice, Map, and Interface{}
+	var personCombine = []map[string]interface{}{
+		{
+			"name": "wick",
+			"age":  23,
+		},
+		{
+			"name": "ethan",
+			"age":  25,
+		},
+		{
+			"name": "hunt",
+			"age":  29,
+		},
+	}
+
+	for _, each := range personCombine {
+		fmt.Println(each["name"], "age is", each["age"])
+	}
+
+	// another example
+	var fruitCombine = []interface{}{
+		map[string]interface{}{
+			"name":  "Strawberry",
+			"total": 20,
+		},
+		[]string{
+			"mango", "pineapple", "papaya", "orange",
+		},
+	}
+
+	for _, fruit := range fruitCombine {
+		fmt.Print(fruit)
+	}
 }
