@@ -5,6 +5,11 @@ import (
 	"runtime"
 )
 
+// channel as a parameter data type
+func printMessage(what chan string) {
+	fmt.Println(<-what)
+}
+
 func main() {
 	// learn go channel
 
@@ -29,4 +34,16 @@ func main() {
 
 	message3 := <-messages
 	fmt.Println(message3)
+
+	// running channel as a data type parameter
+	for _, each := range []string{"wick", "hunt", "bourne"} {
+		go func(who string) {
+			data := fmt.Sprintf("hello %s", who)
+			messages <- data
+		}(each)
+	}
+
+	for i := 0; i < 3; i++ {
+		printMessage(messages)
+	}
 }
