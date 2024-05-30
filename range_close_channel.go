@@ -22,7 +22,7 @@ func printMessage2(ch <-chan string) {
 	}
 }
 
-// implement timeout-channel
+// implement timeout-channel on golang
 func sendData(ch chan<- int) {
 	randomizer := rand.New(rand.NewSource(time.Now().Unix()))
 	for i := 0; true; i++ {
