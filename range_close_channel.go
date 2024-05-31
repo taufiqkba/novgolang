@@ -54,6 +54,7 @@ func main() {
 	printMessage2(messages)
 
 	// running implement timeout-channel
+	fmt.Println("timeout-channel")
 	messages2 := make(chan int)
 	go sendData(messages2)
 	retrieveData(messages2)
