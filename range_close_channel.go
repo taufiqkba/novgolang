@@ -31,7 +31,7 @@ func sendData(ch chan<- int) {
 	}
 }
 
-func retreiveData(ch <-chan int) {
+func retrieveData(ch <-chan int) {
 loop:
 	for {
 		select {
@@ -56,5 +56,5 @@ func main() {
 	// running implement timeout-channel
 	messages2 := make(chan int)
 	go sendData(messages2)
-	retreiveData(messages2)
+	retrieveData(messages2)
 }
