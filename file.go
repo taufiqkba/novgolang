@@ -2,24 +2,26 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
 
-var path = "/Users/novalagung/Documents/temp/test.txt"
+var path = "/Users/mymac/Documents/Programming/go/Bootcamp/novgolang/test.txt"
 
+// create error helper
 func isError(err error) bool {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
 	return (err != nil)
 }
 
+// to create new file
 func createFile() {
-	// detech existing file
+	// to detect file is exist or not
 	var _, err = os.Stat(path)
 
-	// create new file if not found
+	// create new file if not exist
 	if os.IsNotExist(err) {
 		var file, err = os.Create(path)
 		if isError(err) {
@@ -27,38 +29,81 @@ func createFile() {
 		}
 		defer file.Close()
 	}
-
-	fmt.Println("==> file berhasil dibuat", path)
+	fmt.Println("==> success create file")
 }
 
+// to edit file that was created before
 func writeFile() {
-	// buka file dengan level akses READ & WRITE
+	// open file with access level READ & WRITE
 	var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 	if isError(err) {
 		return
 	}
 	defer file.Close()
 
-	// tulis data ke file
-	_, err = file.WriteString("halo\n")
+	// write data into existing file
+	_, err = file.WriteString("Hello\n")
 	if isError(err) {
 		return
 	}
-	_, err = file.WriteString("mari belajar golang\n")
+	_, err = file.WriteString("Let's to learn Golang!\n")
 	if isError(err) {
 		return
 	}
 
-	// simpan perubahan
+	// save changes
 	err = file.Sync()
 	if isError(err) {
 		return
 	}
 
-	fmt.Println("==> file berhasil di isi")
+	fmt.Println("==> success input into existing file")
+}
+
+// to read existing file
+func readFile() {
+	// open file
+	var file, err = os.OpenFile(path, os.O_RDONLY, 0644)
+	if isError(err) {
+		return
+	}
+	defer file.Close()
+
+	// read file
+	var text = make([]byte, 1024)
+
+	for {
+		n, err := file.Read(text)
+		if err != io.EOF {
+			if isError(err) {
+				break
+			}
+		}
+		if n == 0 {
+			break
+		}
+
+		if isError(err) {
+			return
+		}
+
+		fmt.Println("==> success read existing file")
+		fmt.Println(string(text))
+	}
+}
+
+// to delete file
+func deleteFile() {
+	var err = os.Remove(path)
+	if isError(err) {
+		return
+	}
+	fmt.Println("==> success deleting file")
 }
 
 func main() {
 	createFile()
 	writeFile()
+	readFile()
+	deleteFile()
 }
