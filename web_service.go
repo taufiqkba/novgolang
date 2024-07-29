@@ -62,7 +62,7 @@ func user(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-	// Simple Web Service RESTI API
+	//Simple Web Service RESTI API
 	http.HandleFunc("/users", users)
 	http.HandleFunc("/user", user)
 
