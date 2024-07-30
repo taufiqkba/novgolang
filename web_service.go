@@ -7,9 +7,9 @@ import (
 )
 
 type studentAPI struct {
-	ID    string
-	Name  string
-	Grade int
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Grade int    `json:"grade"`
 }
 
 var dataStudent = []studentAPI{

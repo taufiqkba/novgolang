@@ -1,20 +1,18 @@
 package main
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"net/url"
 )
 
 // Using HTTP Request
 var baseURL = "http://localhost:8080"
 
 type studentAPI_Client struct {
-	ID    string
-	Name  string
-	Grade int
+	ID    string `json:"id"`
+	Name  string `json:"name"`
+	Grade int    `json:"grade"`
 }
 
 func fetchUsers() ([]studentAPI_Client, error) {
@@ -47,12 +45,15 @@ func fetchUserByID(ID string) (studentAPI_Client, error) {
 	var client = &http.Client{}
 	var data studentAPI_Client
 
-	var param = url.Values{}
-	param.Set("id", ID)
-	payload := bytes.NewBufferString(param.Encode())
+	// var param = url.Values{}
+	// param.Set("id", ID)
+	// payload := bytes.NewBufferString(param.Encode())
 
-	request, err := http.NewRequest("POST", baseURL+"/user", payload)
-	fmt.Println(request)
+	// Construct the URL with query parameters
+	url := fmt.Sprintf("http://localhost:8080/user?id=%s", ID)
+
+	// Create GET request
+	request, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return data, err
 	}
@@ -85,7 +86,9 @@ func main() {
 	}
 
 	// execute fetchUserByID
-	var user1, err1 = fetchUserByID("E001")
+	fmt.Println(" ")
+	fmt.Println("HTTP Request with Form Data")
+	var user1, err1 = fetchUserByID("E002")
 	if err != nil {
 		fmt.Println("Error!", err1.Error())
 		return
