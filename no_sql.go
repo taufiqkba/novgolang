@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"strings"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -38,7 +39,7 @@ func insertMongoDB() {
 		log.Fatal(err.Error())
 	}
 
-	_, err = db.Collection("student").InsertOne(ctx, studentMongoDB{"John Doe", 4})
+	_, err = db.Collection("student").InsertOne(ctx, studentMongoDB{"Eriock Birawa", 7})
 	if err != nil {
 		log.Fatal(err.Error())
 	}
@@ -80,9 +81,91 @@ func find() {
 	}
 }
 
+// update data
+func update() {
+	db, err := connectMongoDB()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	selector := bson.M{"name": "Wick Karno"}
+	changes := studentMongoDB{"John Wick", 2}
+	_, err = db.Collection("student").UpdateOne(ctx, selector, bson.M{"$set": changes})
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	fmt.Println("Update success!")
+}
+
+// delete data
+func remove() {
+	db, err := connectMongoDB()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	selector := bson.M{"name": "John Wick"}
+	_, err = db.Collection("student").DeleteOne(ctx, selector)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	fmt.Println("Remove success!")
+}
+
+func aggregateData() {
+	db, err := connectMongoDB()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	pipeline := make([]bson.M, 0)
+	err = bson.UnmarshalExtJSON([]byte(strings.TrimSpace(`
+    	[
+        	{ "$group": {
+            	"_id": null,
+            	"Total": { "$sum": 1 }
+        	} },
+        	{ "$project": {
+            	"Total": 1,
+            	"_id": 0
+        	} }
+    	]
+	`)), true, &pipeline)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	csr, err := db.Collection("student").Aggregate(ctx, pipeline)
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+	defer csr.Close(ctx)
+
+	result := make([]bson.M, 0)
+	for csr.Next(ctx) {
+		var row bson.M
+		err := csr.Decode(&row)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
+
+		result = append(result, row)
+	}
+
+	if len(result) > 0 {
+		fmt.Println("Total: ", result[0]["Total"])
+	}
+}
+
 func main() {
 	fmt.Println("No SQL using MongoDB")
 	fmt.Printf("\n")
-	insertMongoDB()
-	find()
+	// insertMongoDB()
+	// find()
+	// update()
+	// remove()
+	aggregateData()
 }
