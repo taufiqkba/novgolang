@@ -97,14 +97,14 @@ func main() {
 	log.Println("Start")
 	start := time.Now()
 
-	// generateFiles()
-	// duration := time.Since(start)
-	// log.Println("done in", duration.Seconds(), "seconds")
+	generateFiles()
+	duration := time.Since(start)
+	log.Println("done in", duration.Seconds(), "seconds")
 
 	// second program
 	// use hash-file to rename file
-	proceed()
-	duration := time.Since(start)
-	log.Println("Done in: ", duration.Seconds(), "seconds")
+	// proceed()
+	// duration = time.Since(start)
+	// log.Println("Done in: ", duration.Seconds(), "seconds")
 
 }
